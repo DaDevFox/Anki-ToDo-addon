@@ -280,7 +280,7 @@ class Todo:
     pass
 
     def successfully_moved_deck(self, deck) -> None:
-        showInfo(f"Congratulation ! You'd learnt all cards in {deck}")
+        showInfo(f"Congratulation! You've learnt all cards in {deck}")
 
     def render_tasks(self, deck_list):
         # display blank is there's no tasks
