@@ -67,12 +67,14 @@ class Todo:
         total_cards = len(self.collection().find_cards(f'"deck:{name}"'))
         cards_unseen = len(self.collection().find_cards(f'"deck:{name}" is:new -is:suspended -is:buried'))
         cards_in_learning = len(self.collection().find_cards(f'"deck:{name}" is:learn'))
+        cards_due = len(self.collection().find_cards(f'"deck:{name}" is:due'))
         cards_suspended = len(self.collection().find_cards(f'"deck:{name}" is:suspended'))
         known_cards = total_cards - cards_unseen
         deckStats = {'deck_id': due_tree.deck_id,
                      'name': due_tree.name,
                      'total': total_cards,
                      'unseen': cards_unseen,
+                     'due': cards_due,
                      'inlearning': cards_in_learning,
                      'suspended': cards_suspended,
                      'known': known_cards
@@ -82,16 +84,18 @@ class Todo:
 
     def deckStatsToJsonByName(self, name):
         total_card_number = len(self.collection().find_cards(f'"deck:{name}"'))
-        unseen_card_number = len(self.collection().find_cards(f'"deck:{name}" is:new -is:suspended -is:buried'))
-        card_in_learning = len(self.collection().find_cards(f'"deck:{name}" is:learn'))
-        suspended_cards = len(self.collection().find_cards(f'"deck:{name}" is:suspended'))
-        known_cards = total_card_number - unseen_card_number
+        unseen_cards = len(self.collection().find_cards(f'"deck:{name}" is:new -is:suspended -is:buried'))
+        cards_in_learning = len(self.collection().find_cards(f'"deck:{name}" is:learn'))
+        cards_due = len(self.collection().find_cards(f'"deck:{name}" is:due'))
+        cards_suspended = len(self.collection().find_cards(f'"deck:{name}" is:suspended'))
+        known_cards = total_card_number - unseen_cards
         deckStats = {'deck_id': self.collection().decks.id(name),
                      'name': name,
                      'total': total_card_number,
-                     'unseen': unseen_card_number,
-                     'inlearning': card_in_learning,
-                     'suspended': suspended_cards,
+                     'unseen': unseen_cards,
+                     'due': cards_due,
+                     'inlearning': cards_in_learning,
+                     'suspended': cards_suspended,
                      'known': known_cards
                      }
 
