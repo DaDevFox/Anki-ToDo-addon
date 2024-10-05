@@ -194,6 +194,9 @@ class Todo:
         with open(self.get_path("user_files/task.json"), "w") as f:
             json.dump(tasks_json, f)
 
+    def trackable_cards(self, stat):
+        return stat["unseen"] + stat["due"]
+
     def remaining_days(self, deck, number_of_unseen_cards):
         with open(self.get_path("user_files/task.json")) as f:
             tasks_json = json.load(f)
@@ -213,7 +216,7 @@ class Todo:
             stat = self.deckStatsToJsonByName(e)
             print(e, stat)
             # If deck is done, remove it from task list
-            if stat["unseen"] == 0:
+            if self.trackable_cards(stat) == 0:
 
                 # Enable the folowing deck
                 deck_index = tasks.index(e)
@@ -332,7 +335,7 @@ class Todo:
                     # Get deck progression
                     else:
                         pourcentage = round(
-                            (element_stats["total"] - element_stats["unseen"]) / element_stats["total"] * 100,
+                            (element_stats["total"] - self.trackable_cards(element_stats)) / element_stats["total"] * 100,
                             1)
 
                     element_html = base_element
@@ -393,7 +396,7 @@ class Todo:
                 # Get deck progression
                 else:
                     pourcentage = round(
-                        (element_stats["total"] - element_stats["unseen"]) / element_stats["total"] * 100,
+                        (element_stats["total"] - self.trackable_cards(element_stats)) / element_stats["total"] * 100,
                         1)
 
                 element_html = base_element
