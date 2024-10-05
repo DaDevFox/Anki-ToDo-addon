@@ -65,7 +65,7 @@ class Todo:
     def deckStatsToJson(self, due_tree):
         name = self.collection().decks.name(due_tree.deck_id)
         total_card_number = len(self.collection().find_cards(f'"deck:{name}"'))
-        unseen_card_number = len(self.collection().find_cards(f'"deck:{name}" is:new'))
+        unseen_card_number = len(self.collection().find_cards(f'"deck:{name}" is:new -is:suspended -is:buried'))
         card_in_learning = len(self.collection().find_cards(f'"deck:{name}" is:learn'))
         suspended_cards = len(self.collection().find_cards(f'"deck:{name}" is:suspended'))
         known_cards = total_card_number - unseen_card_number
@@ -82,7 +82,7 @@ class Todo:
 
     def deckStatsToJsonByName(self, name):
         total_card_number = len(self.collection().find_cards(f'"deck:{name}"'))
-        unseen_card_number = len(self.collection().find_cards(f'"deck:{name}" is:new'))
+        unseen_card_number = len(self.collection().find_cards(f'"deck:{name}" is:new -is:suspended -is:buried'))
         card_in_learning = len(self.collection().find_cards(f'"deck:{name}" is:learn'))
         suspended_cards = len(self.collection().find_cards(f'"deck:{name}" is:suspended'))
         known_cards = total_card_number - unseen_card_number
